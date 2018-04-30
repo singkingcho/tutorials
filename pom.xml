@@ -5,7 +5,7 @@
   <groupId>com.daodaofun</groupId>
   <artifactId>tutorials</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>tutorials</name>
   <url>http://maven.apache.org</url>
@@ -17,4 +17,7 @@
   <dependencies>
   
   </dependencies>
+  <modules>
+  	<module>java8</module>
+  </modules>
 </project>
