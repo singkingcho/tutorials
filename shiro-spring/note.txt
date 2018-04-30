@@ -1,0 +1,6 @@
+1 关于classsnotfound错误的解决
+ 	如果jar本身没有问题，那么就是没有成功输出的问题
+ 	build path -->> deploy..-->将maven的依赖添加到输出地方
+ 	
+
+ 
