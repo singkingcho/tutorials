@@ -1,7 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+<!-- 	引入jdbc.properties文件 -->
+<!-- 	<import resource="classpath:db.properties"/> -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	<!-- 安全管理器的配置 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="sessionMode" value="native" />
+		<!-- realm配置很重要，关系到验证是否能够通过的问题 -->
+		<property name="realm" ref="jdbcRealm" />
+	</bean>
+
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+	</bean>
+
+<!-- 	通过JDBC配置领域 -->
+	<bean id="jdbcRealm" class="com.daodaofun.realm.MyJdbcRealm">
+		<property name="name" value="jdbcRealm"></property>
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="credentialsMatcher">
+			<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<property name="hashAlgorithmName" value="SHA-256"/>
+				<property name="storedCredentialsHexEncoded" value="false"/>
+			</bean>
+		</property>
+	</bean>
+	
+<!-- 	数据源配置 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="url" value="${url}"/>
+<!-- 		注意这里是配置驱动的类名，不能直接写driver -->
+		<property name="driverClassName" value="${driver}"/>
+		<property name="username" value="root"/>
+		<property name="password" value="111111"/>
+	</bean>
+	
+	
+<!-- 	<bean id="bootstrapDataPopulator" class="com.daodaofun.init.BootstrapDataPopulator"> -->
+<!-- 		<property name="dataSource" ref="dataSource"/> -->
+<!-- 	</bean> -->
+<!-- 	普通领域 -->
+<!-- 	<bean id="myRealm" class="com.daodaofun.realm.MyRealm"> -->
+<!-- 	</bean> -->
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<!-- 配置记住我的cookie -->
+	<bean id="rememberCookies" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe"></constructor-arg>
+		<property name="httpOnly" value="true"></property>
+		<property name="maxAge" value="#{60*60*24}"></property>
+	</bean>
+	<!-- 配置记住我的管理器 -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey"
+			value="#{T(org.apache.shiro.codec.Base64).decode('6ZmI6I2j5Y+R5aSn5ZOlAA==')}" />
+		<property name="cookie" ref="rememberCookies" />
+	</bean>
+
+	<bean id="secureRemoteInvocationExecutor"
+		class="org.apache.shiro.spring.remoting.SecureRemoteInvocationExecutor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/s/login.jsp" />
+		<property name="successUrl" value="/s/index.jsp" />
+		<property name="unauthorizedUrl" value="/s/unauthorized.jsp" />
+		<property name="filterChainDefinitions">
+			<value>
+				/favicon.ico = anon
+				/logo.png = anon
+				/shiro.css = anon
+				/s/login.jsp = anon
+				/user/login = anon
+				/*.jar = anon
+				# everything else requires authentication:
+				/** = authc
+			</value>
+		</property>
+	</bean>
 
 </beans>

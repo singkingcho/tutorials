@@ -8,6 +8,7 @@
 </head>
 <body>
 
-欢迎来到主页 <a href="${pageContext.request.contextPath }/user/logout">登出</a>
+ 登录成功后首页  
+
 </body>
 </html>

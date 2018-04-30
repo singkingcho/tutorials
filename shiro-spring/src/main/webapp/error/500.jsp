@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-欢迎来到主页 <a href="${pageContext.request.contextPath }/user/logout">登出</a>
+	出了点小问题，我们正在抢修中。
 </body>
 </html>

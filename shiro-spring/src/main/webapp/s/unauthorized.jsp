@@ -8,6 +8,6 @@
 </head>
 <body>
 
-欢迎来到主页 <a href="${pageContext.request.contextPath }/user/logout">登出</a>
+	未认证的页面
 </body>
 </html>
