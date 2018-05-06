@@ -1,0 +1,94 @@
+mybatis当中也可以使用缓存
+分为：
+	一级缓存
+	二级缓存
+
+1 一级缓存：
+	一级缓存是session级别的缓存，也就是说在一个会话当中如果是第二次查询那么将会使用缓存当中的数据，当然它在增删改等操作后将会失效，我们后面证明。
+	为了证明SQL语句执行次数，我们处理下mybatis的日志，让其打印SQL。
+
+日志的加入，并且打印SQL。
+	1 )添加依赖：
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
+	2 )配置日志属性
+		
+		<settings>
+			<setting name="logImpl" value="LOG4J"/>
+		</settings>
+	
+	3 )添加log4j.properries文件
+		log4j.rootLogger=ERROR, stdout
+		# 指定打印SQL的包，注意如果你的包名和我不一致，记得要切换哦。
+		log4j.logger.com.daodaofun.mapper=TRACE
+		log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+		log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+		log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n
+		
+	最后代码证明。
+	【注意：】一级缓存默认是开启的，也无法关闭，但是我们可以主动声明不使用一级缓存。
+	
+
+2 二级缓存
+	概念：二级缓存是会话工厂级别的缓存。
+	下面我们看看二级缓存的配置
+	1）settings的配置
+		mybaits随着版本不一致，默认配置不确定，既然如此，我们如果需要使用二级缓存，那么直接指定死即可。
+			
+		<!-- 配置二级缓存 -->
+		<setting name="cacheEnabled" value="true" />
+
+	2）mapper.xml当中的配置
+		除了配置核心配置文件，我们还需要在具体的XML当中配置	，添加一个<cache/>节点即可。
+		它有一些属性可以配置，我们可以参考官方文档具体配置的作用。
+		<cache/>
+		
+	3）二级缓存的证明。
+		使用一个会话查询后，然后关闭会话，之后重新开启一个会话再次查询缓存命中。
+		注意必须会话关闭之后才会去查询二级缓存，否则只会查询一级缓存。
+		如果不关闭，会发现还是执行了新的SQL，因为此时一级缓存并没有命中。
+
+3 ehcache集成
+	ehcache是一个比较优秀的缓存方案，下面我们说收集成方式
+	1） 添加依赖
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-ehcache</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+	2 ）配置ehcache.xml
+		请参考资料文件夹对应文件，更多详细配置参考官网。
+		在配置文件当中有两个重要的属性
+		1-->copyOnRead的含义是，判断从缓存中读取数据时是返回对象的引用还是复制一个对象返回。默认情况下是false，
+		即返回数据的引用，这种情况下返回的都是相同的对象，和MyBatis默认缓存中的只读对象是相同的。如果设置为 true，
+		那就是可读写缓存，每次读取缓存时都会复制一个新的实例。
+		
+		2-->copyOnWrite 的含义是，判断写入缓存时是直接缓存对象的引用还是复制一个对象然后缓存，默认也是 false。
+		如果想使用可读写缓存，就需要将这两个属性配置为 true，如果使用只读缓存，可以不配置这两个属性，使用默认值false即可。
+		
+	3）修改Mapper.xml当中缓存实现
+		修改cache节点， 将type的实现修改为ehcache
+		<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+		
+	4）如何证明真的使用了ehcache
+		来到我们配置过的D盘cache文件夹中观察即可。
+	5）如果你希望针对一个Mapper.xml单独设置
+		在ehcache.xml当中针对一个mapper命名空间单独设置
+		<cache      
+		name="com.daodaofun.mapper.HusbandMapper"
+		maxElementsInMemory="3000"      
+		eternal="false"      
+		copyOnRead="true"
+		copyOnWrite="true"
+		timeToIdleSeconds="3600"      
+		timeToLiveSeconds="3600"      
+		overflowToDisk="true"      
+		diskPersistent="true"/> 
+		
+		
+		
+		

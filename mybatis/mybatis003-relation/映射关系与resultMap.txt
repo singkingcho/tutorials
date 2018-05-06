@@ -1,0 +1,12 @@
+1 映射关系
+	1 1 
+	1 N
+	N N
+2 resultMap的配置
+	1）属性级联配置
+	
+	2）association配置
+	
+	3）collection配置
+	
+

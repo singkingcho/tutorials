@@ -18,5 +18,6 @@
   </dependencies>
   <modules>
   	<module>mybatis003-relation</module>
+  	<module>mybatis004-cache</module>
   </modules>
 </project>

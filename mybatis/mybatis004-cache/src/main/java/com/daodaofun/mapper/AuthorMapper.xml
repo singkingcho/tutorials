@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daodaofun.mapper.AuthorMapper">
+
+	<resultMap type="com.daodaofun.model.Author" id="authorWithBlog">
+		<id property="id" column="aId"/>
+		<result property="name" column="name"/>
+		<collection property="blogs" ofType="com.daodaofun.model.Blog">
+			<id property="id" column="bId"/>
+			<result property="title" column="title"/>
+			<result property="content" column="content"/>
+		</collection>
+	</resultMap>
+
+	<select id="queryById" resultMap="authorWithBlog">
+		SELECT t1.`id` AS aId,t1.`name` ,
+		t2.`id` AS bId ,t2.`title`,t2.`content`
+		FROM author t1 , blog t2
+		WHERE t1.`id` = t2.`author_id`
+		and t1.`id` = #{id}
+	</select>
+</mapper>

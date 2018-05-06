@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daodaofun.mapper.HusbandMapper">
+	
+	
+	
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"  />
+<!-- 	【一对一结封方式一】，使用属性连缀点法，wife.id这种写法组装结果 -->
+	<resultMap type="com.daodaofun.model.Husband" id="mapWithWife">
+		<id property="id" column="hId"/>
+		<result property="name" column="hName"/>
+		<result property="wife.id" column="wId"/>
+		<result property="wife.name" column="wName"/>
+	</resultMap>
+	
+	<resultMap type="com.daodaofun.model.Husband" id="mapWithWife2">
+		<id property="id" column="hId"/>
+		<result property="name" column="hName"/>
+<!-- 		借用专门用的标签封装 -->
+		<association property="wife" javaType="com.daodaofun.model.Wife">
+			<id property="id" column="wId"/>
+			<result property="name" column="wName"/>
+		</association>
+	</resultMap>
+	
+	<select id="queryById"  resultMap="mapWithWife">
+		select t1.id hId,t1.name hName,t3.id wId,t3.name wName
+		from husband t1,husband_wife t2,wife t3
+		where t1.id = t2.husband_id and t3.id = t2.wife_id
+		and t1.id = #{id}
+	</select>
+	
+	<select id="queryById2"  resultMap="mapWithWife2">
+		select t1.id hId,t1.name hName,t3.id wId,t3.name wName
+		from husband t1,husband_wife t2,wife t3
+		where t1.id = t2.husband_id and t3.id = t2.wife_id
+		and t1.id = #{id}
+	</select>
+	
+	<update id="update">
+		update husband 
+		set name = #{name}
+		where id = #{id}
+	</update>
+</mapper>
