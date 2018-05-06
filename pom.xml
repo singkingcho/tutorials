@@ -9,17 +9,15 @@
 
   <name>tutorials</name>
   <url>http://maven.apache.org</url>
-
   <properties>
    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
   <dependencies>
-  
   </dependencies>
   <modules>
   	<module>java8</module>
     <module>shiro-spring</module>
+    <module>mybatis</module>
   </modules>
 </project>
