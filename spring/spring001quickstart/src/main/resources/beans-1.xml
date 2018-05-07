@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- spring配置文件 -->
+	<!-- 注册一个bean，class=全类名，通过反射的方式创建实例，id作为spring容器当中一个bean的唯一标记 -->
+	<bean id="girl" class="com.daodaofun.bean.Girl">
+		<property name="age" value="18" />
+		<property name="name" value="菲菲" />
+	</bean>
+</beans>

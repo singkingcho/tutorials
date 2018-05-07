@@ -5,45 +5,43 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.daodaofun</groupId>
-		<artifactId>mybatis</artifactId>
+		<artifactId>spring</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>mybatis004-cache</artifactId>
-	<name>mybatis004-cache</name>
+	<artifactId>spring001quickstart</artifactId>
+	<name>spring001quickstart</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>5.0.5.RELEASE</spring.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.4.6</version>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
 
-
+		<!-- 添加spring的依赖 -->
+		<!-- 核心模块 -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- beans模块 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- 上下文模块 -->
 		<dependency>
-			<groupId>org.mybatis.caches</groupId>
-			<artifactId>mybatis-ehcache</artifactId>
-			<version>1.1.0</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 	</dependencies>
 </project>

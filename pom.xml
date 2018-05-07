@@ -19,5 +19,6 @@
   	<module>java8</module>
     <module>shiro-spring</module>
     <module>mybatis</module>
+    <module>spring</module>
   </modules>
 </project>
