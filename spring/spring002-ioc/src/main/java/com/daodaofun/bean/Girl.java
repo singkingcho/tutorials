@@ -1,0 +1,45 @@
+package com.daodaofun.bean;
+
+public class Girl {
+
+	
+	private String name;
+	
+	private String age;
+	
+	public Girl() {
+		System.out.println("女孩默认构造器。。。。。。。");
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	@Override
+	public String toString() {
+		return "Girl [name=" + name + ", age=" + age + "]";
+	}
+	
+	
+	
+	public void init() {
+		System.out.println("女孩初始化。。。。。。。。。。");
+	}
+	
+	public void destroy() {
+		System.out.println("女孩不见了。。。。。。。。。。");
+	}
+		
+}

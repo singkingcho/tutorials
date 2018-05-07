@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<!-- 	bean节点，用于向spring容器注册bean，也就是注册一个实例，下面主要研究bean的属性
+	
+			id:作为实例唯一标记
+			class:全类名（反射使用）
+			abstract：是否是抽象的，如果是抽象的那么将无法被实例化，如果我们加上次属性为true，还尝试去获取它的实例，将会有如下的错误。
+				org.springframework.beans.factory.BeanIsAbstractException: 
+				Error creating bean with name 'girl': Bean definition is abstract。
+				那么它的意义何在呢？
+				用于被其它bean所继承。
+				我们设计一个PrettyGirl，让其继承Girl。然后通过parent属性来指向即可。
+			autowired：自动注入的方式，可选值：
+					byName
+					byType
+					constructor
+					no
+					default
+					(留在后面探讨，先弄简单的)
+			depents-on:依赖于某个bean
+				 	这个就意味着相当于描述某个bean必须在其依赖的某个bean后面完成实例化，如果两个bean之间存在着强的先后关系，则可以这样描述，
+				 	比如儿子必须依赖于父亲的出生后才能再出生。
+			init-method：初始化的方法，对于某个bean如果某个方式适合于创建实例的时候就调用的话，那么可以进行它的配置。对应的还有销毁方法、
+			destroy-method:某个bean当容器销毁的时候需要执行的方法。
+			factory-bean:
+					指定一个bean的类型，如果指定次属性，那么将不能使用class属性描述这个bean，并且需要指定一个工厂的实例方法描述它的bean类型，
+					因为此时这个实例是通过factory的这个method调用而得到的。
+					【注意】这个method必须为实例方式。否则是会报错的
+			lazy-init：
+					延迟加载，默认是没有延迟加载的，如果某个bean我们不着急实例化，需要用的时候再实例化，即可配置为true。	
+			name:
+					充当为id的别名，比如id叫做girl，别名为realGirl，可以有多个别名，可以使用空格或者逗号等等分隔都可以。
+			
+			primary:
+					充当为一个主要的bean，这个主要是针对于自动注入的时候，如果满足条件的bean有多个，那么标记了primary的bean充当为主要的bean来注入。
+					关于自动注入问题我们单独描述。
+			scope:
+					bean的范围，生存范围，有如下选择：
+					singlton单例的，也是默认值
+					prototype原型的，没要一个就创建一个新的
+					request web环境下才有用，我们一般 不需要主动去修改
+					session	同上
+			
+	 -->
+	<bean id="girl"  class="com.daodaofun.bean.Girl" name="girl2,girl3" primary="true" scope="">
+		<property name="name" value="菲菲"/>
+		<property name="age" value="22"/>
+	</bean>
+
+<!-- 	<bean  class="com.daodaofun.bean.PrettyGirl" id="prettyGirl" depends-on="girl2"> -->
+<!-- 		通过指定parent，是否可以继承指向的父bean的内容过来，我们观察 结果是可以的 -->
+<!-- 		<property name="longLeg" value="大长腿啊" /> -->
+<!-- 	</bean>	 -->
+	
+	<bean class="com.daodaofun.bean.MyFactoryBean" id="myFactoryBean">
+	</bean>
+</beans>

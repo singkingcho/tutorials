@@ -16,5 +16,10 @@
   </properties>
   <modules>
   	<module>spring001quickstart</module>
+  	<module>spring002-ioc</module>
   </modules>
 </project>
+
+
+
+

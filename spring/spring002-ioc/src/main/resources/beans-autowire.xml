@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 	本文件主要用于探讨自动注入问题 -->
+	
+<!-- 	当它标记了primary之后，在boy当中自动注入的将会是王菲而不是叶倩文 ，
+		不能二者都是primary=true.
+		自动注入方式
+		byType:
+				如果出现上下文当中满足条件的bean不止一个将会抛出异常。
+		byName
+				比如在Boy当中定义的girl属性名是girl，那么他将会按照girl作为名字去寻找满足条件的bean
+		
+		constructor
+				按照构造器注入,在bean当中使用constructor-arg 注入，它的策略是：
+				先通过byName策略，如果有一个bean的名字符合直接使用，如果无法通过byName确定一个bean。
+				使用byType，这个时候就要小心了，如果有两个bean符合要求，那么将会抛出异常。
+		no
+				不自动注入，没啥好解释的。
+-->
+	<bean class="com.daodaofun.bean.Girl" id="g1"  >
+		<property name="name" value="王菲"/>
+	</bean>
+
+
+
+	<bean class="com.daodaofun.bean.Girl" id="girl"  >
+		<property name="name" value="叶倩文"/>
+	</bean>
+	
+	<bean class="com.daodaofun.autowire.Boy" id="boy" autowire="constructor">
+		<constructor-arg name="name" value="王道"/>
+	</bean>
+</beans>
