@@ -25,7 +25,6 @@
 	</bean>
 
 
-
 	<bean class="com.daodaofun.bean.Girl" id="girl"  >
 		<property name="name" value="叶倩文"/>
 	</bean>

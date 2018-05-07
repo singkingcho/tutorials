@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 	本文件用于描述值注入的问题
+	1 按照注入方式
+		字面值
+		引用
+	2 按照值的数量
+		单一值
+		泛集合类型
+	
+ -->
+
+	<!-- 【1】 字面值直接赋值 -->
+	<bean class="com.daodaofun.divalue.Car" id="car">
+		<property name="color" value="蓝色" />
+		<property name="brand" value="奔驰" />
+	</bean>
+
+
+	<!-- 【2】 引用方式。通过ref引入 -->
+	<bean class="com.daodaofun.divalue.People" id="people">
+		<property name="name" value="周伯通" />
+		<property name="car" ref="car" />
+	</bean>
+
+	<!-- 【3】 集合值的描述 -->
+
+	<!-- 3.1）数组注入 -->
+	<bean class="com.daodaofun.divalue.MyArray" id="myArray">
+		<property name="nums">
+			<array>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- 3.2）List集合注入 -->
+	<bean class="com.daodaofun.divalue.MyList" id="myList">
+		<property name="dogs">
+			<list>
+				<value>阿东</value>
+				<value>狗东</value>
+				<value>安安</value>
+				<value>阿黄</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 3.3）Map集合注入 -->
+	<bean class="com.daodaofun.divalue.MyMap" id="myMap">
+		<property name="map">
+			<map>
+				<entry key="m1">
+					<bean class="com.daodaofun.divalue.Car">
+						<property name="brand" value="雪佛兰" />
+					</bean>
+				</entry>
+				<entry key="m2">
+					<!-- 	匿名bean，因为不需要其它的bean所引用，仅仅用一次，取名字就没有什么意义了 -->
+					<bean class="com.daodaofun.divalue.Car">
+						<property name="brand" value="雪豹" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- 3.4）Properties的注入 -->
+	<bean class="com.daodaofun.divalue.MyProp" id="myProp">
+		<property name="properties">
+			<props>
+				<prop key="username">root</prop>
+				<prop key="passsword">root</prop>
+			</props>
+		</property>
+	</bean>
+	
+<!-- 	3.5）set的注入 -->
+	<bean class="com.daodaofun.divalue.MySet" id="mySet">
+		<property name="orderNos">
+			<set>
+				<value>0002312</value>
+				<value>323213</value>
+				<value>434212</value>
+			</set>
+		</property>
+	</bean>
+	
+<!-- 	对于null值，spring也专门提供了一个null标签... ,一般情况下不需要使用，如果某一个本身有默认值，那么我们可以通过null来赋值空
+	
+ -->
+<!--  	【null】的运用 -->
+	<bean class="com.daodaofun.divalue.MyNull" id="myNull">
+<!-- 	lover默认值为菲比寻常，那么我现在不喜欢它了， 现在我还么想好喜欢谁，先置空 -->
+<!-- 		我们按照下面的写法，就是一个null字符串，并不是真的空引用 -->
+<!-- 		<property name="lover" value="null"/>	 -->
+<!-- 		通过专门的标签来完成 -->
+		<property name="lover" >
+			<null></null>
+		</property>
+	</bean>
+	
+<!-- 	【其它一些小细节】
+		alias，别名的使用
+ -->
+	
+</beans>

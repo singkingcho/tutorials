@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 本文件用于描述DI的方式 -->
+	<!-- 
+		setter注入
+		
+		 构造注入 
+	
+	-->
+
+	<!-- setter注入 -->
+	<bean class="com.daodaofun.di.Emp" id="emp" >
+		<!-- setter注入，这也是最常用的注入方式 -->
+		<property name="empno" value="8" />
+		<!-- 出现可能错误，尽量在javabean当中不要使用还能aXaa这种第二个字母立马大写的方式 -->
+		<property name="name" value="欧阳锋" />
+		<property name="sal" value="33.3" />
+	</bean>
+
+
+	<!-- 构造注入【一】： 使用name方式描述 -->
+	<bean class="com.daodaofun.di.Emp" id="emp2">
+		<!-- name指定构造器当中某个属性名 -->
+		<constructor-arg name="empno" value="32" />
+		<constructor-arg name="name" value="欧阳疯了" />
+	</bean>
+	
+<!-- 	构造注入【二】：1 使用type方式描述 -->
+	<bean class="com.daodaofun.di.Emp" id="emp3">
+		<constructor-arg type="java.lang.Integer" value="32"/>
+		<constructor-arg type="java.lang.String" value="东邪"/>
+	</bean>
+	
+	<!-- 	构造注入【二】：2 使用type方式描述的问题 ，如果有两个构造器
+		签名如下：
+				public Emp2(Integer empno, String name)  
+				public Emp2(String name, Integer sal )
+				这里我们注入值的时候按照类型来注入其实注入给哪个构造器都是可以成功的。
+	-->
+	
+	<bean class="com.daodaofun.di.Emp2" id="emp4"> 
+<!-- 		是编号为44，还是薪水44？
+		Emp2 [empno=null, name=郭靖, sal=44]
+		再往下，是否和构造器位置有关系？
+		当我们切换构造器位置之后
+		Emp2 [empno=44, name=郭靖, sal=null]
+		总不能要求我们还要去记忆这个构造器的位置对吧，这样是很不科学的。所以要解决，如何解决？
+		通过==》index来标注它是第几个就行了，
+		我们注意到参数列表个数一样的，组合也是一样，但是排列是不一样的。
+		于是我们可以指定44就是给sal的，怎么做？
+			sal在第二位，所以我们改写
+			index至于是0还是1开始我们看看，结果显示是0开始
+			修改后结果：Emp2 [empno=null, name=郭靖, sal=44]，如果要使用构造注入，我们也应该按照这种方式来使用。
+ -->
+		<constructor-arg type="java.lang.Integer" value="44" index="1"/>
+		<constructor-arg type="java.lang.String" value="郭靖" index="0"/>
+	</bean>
+	
+</beans>
