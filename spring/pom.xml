@@ -17,9 +17,6 @@
   <modules>
   	<module>spring001quickstart</module>
   	<module>spring002-ioc</module>
+  	<module>spring003-aopBasic</module>
   </modules>
 </project>
-
-
-
-
