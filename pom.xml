@@ -20,5 +20,6 @@
     <module>shiro-spring</module>
     <module>mybatis</module>
     <module>spring</module>
+    <module>hibernate</module>
   </modules>
 </project>
