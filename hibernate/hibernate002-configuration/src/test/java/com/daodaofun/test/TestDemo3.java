@@ -21,7 +21,7 @@ import com.daodaofun.domain.Event;
  */
 public class TestDemo3 {
 
-	
+	 
 	@Test
 	public void m1() {
 		// 1 获取会话工厂
